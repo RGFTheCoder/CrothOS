@@ -27,3 +27,12 @@ gdt_descriptor:
 
 codeseg equ gdt_codedesc - gdt_start
 dataseg equ gdt_datadesc - gdt_start
+[bits 32]
+
+EditGDT:
+	mov [gdt_codedesc + 6], byte 10101111b
+
+	mov [gdt_datadesc + 6], byte 10101111b
+	ret
+
+[bits 16]

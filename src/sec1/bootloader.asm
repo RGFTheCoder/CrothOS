@@ -11,8 +11,8 @@ jmp PROGRAM_SPACE
 
 jmp $
 
-%include "./bootloader/sec1/print.asm"
-%include "./bootloader/sec1/DiskRead.asm"
+%include "./src/sec1/print.asm"
+%include "./src/sec1/DiskRead.asm"
 
 times 510-($-$$) db 0
 

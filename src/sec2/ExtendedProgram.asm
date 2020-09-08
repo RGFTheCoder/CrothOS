@@ -1,11 +1,8 @@
-[org 0x7e00]
 
 jmp EnterProtectedMode
 
-%include "./bootloader/sec2/gdt.asm"
-%include "./bootloader/sec1/print.asm"
-%include "./bootloader/sec2/CPUID.asm"
-%include "./bootloader/sec2/SimplePaging.asm"
+%include "./src/sec2/gdt.asm"
+%include "./src/sec1/print.asm"
 
 EnterProtectedMode:
 	call EnableA20
@@ -24,6 +21,9 @@ EnableA20:
 
 [bits 32]
 
+%include "./src/sec2/CPUID.asm"
+%include "./src/sec2/SimplePaging.asm"
+
 StartProtectedMode:
 
 	mov ax, dataseg
@@ -36,7 +36,19 @@ StartProtectedMode:
 	call DetectCPUID
 	call DetectLongMode
 	call SetUpIdentityPaging
-	
+	call EditGDT
+
+	jmp codeseg:Start64Bit
+
+[bits 64]
+[extern _start]
+
+Start64Bit:
+	mov edi, 0xb8000
+	mov rax, 0x1f201f201f201f20
+	mov ecx, 500
+	rep stosq
+	call _start
 	jmp $
 
-times 0x0400-($-$$) db 0
+times 2048-($-$$) db 0
