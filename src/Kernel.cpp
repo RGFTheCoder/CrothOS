@@ -1,14 +1,18 @@
 #include "TextPrint.cpp"
 #include "IDT.cpp"
 
-extern const char Test[];
-extern const char Test2[];
+#include "./Keyboard.cpp"
 
 extern "C" void _start()
 {
 	ClearScreen();
 	SetCursorPosition(PositionFromCoords(0, 0));
-	PrintString("hello there\r\n");
 	InitializeIDT();
+
+	MainKeyboardHandler = KeyboardHandler;
+
+	PrintString(IntegerToString(-123456789));
+	PrintString("\r\n");
+	PrintString(FloatToString(-672.938));
 	return;
 }

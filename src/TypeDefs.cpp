@@ -1,18 +1,18 @@
 #pragma once
-typedef unsigned char uint_8;
-typedef unsigned short uint_16;
-typedef unsigned int uint_32;
-typedef unsigned long long uint_64;
-typedef signed char int_8;
-typedef signed short int_16;
-typedef signed int int_32;
-typedef signed long long int_64;
+using uint_8 = unsigned char;
+using uint_16 = unsigned short;
+using uint_32 = unsigned int;
+using uint_64 = unsigned long long;
+using int_8 = signed char;
+using int_16 = signed short;
+using int_32 = signed int;
+using int_64 = signed long long;
 
-typedef uint_8 u8;
-typedef uint_16 u16;
-typedef uint_32 u32;
-typedef uint_64 u64;
-typedef int_8 i8;
-typedef int_16 i16;
-typedef int_32 i32;
-typedef int_64 i64;
+using u8 = uint_8;
+using u16 = uint_16;
+using u32 = uint_32;
+using u64 = uint_64;
+using i8 = int_8;
+using i16 = int_16;
+using i32 = int_32;
+using i64 = int_64;

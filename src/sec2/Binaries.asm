@@ -7,6 +7,6 @@
 	%1_size: dq %1_size - %1
 %endmacro
 
-IncBin Test, "./src/assets/test.txt"
-IncBin Test2, "./src/assets/test2.txt"
+; IncBin Test, "./src/assets/test.txt"
+; IncBin Test2, "./src/assets/test2.txt"
  

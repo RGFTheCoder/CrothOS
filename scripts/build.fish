@@ -10,7 +10,7 @@ nasm -f bin ./src/sec2/empty.asm -o ./bin/src/sec2/empty.bin
 nasm -f elf64 ./src/sec2/ExtendedProgram.asm -o ./bin/src/sec2/ExtendedProgram.o
 nasm -f elf64 ./src/sec2/Binaries.asm -o ./bin/src/sec2/Binaries.o
 
-x86_64-elf-gcc -Ttext 0x8000 -ffreestanding -mno-red-zone -m64 -c ./src/Kernel.cpp -o ./bin/src/Kernel.o
+x86_64-elf-gcc -Ttext 0x8000 -ffreestanding -mno-red-zone -m64 -c ./src/Kernel.cpp -o ./bin/src/Kernel.o -std=c++2a
 
 x86_64-elf-ld -T"./scripts/link.ld"
 

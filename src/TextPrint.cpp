@@ -61,10 +61,18 @@ void PrintString(const char *str, const u8 &color = BG_BLACK | FG_WHITE)
 	SetCursorPosition(index);
 }
 
-char hexToStringOutput[128];
+void printChar(i8 chr, u8 color = BG_BLACK | FG_WHITE)
+{
+	*(VGA_MEMORY + CursorPosition * 2) = chr;
+	*(VGA_MEMORY + CursorPosition * 2 + 1) = color;
+
+	SetCursorPosition(CursorPosition + 1);
+}
+
 template <class T>
 const char *HexToString(T value)
 {
+	static char hexToStringOutput[128];
 	T *valPtr = &value;
 	u8 *ptr;
 	u8 temp;
@@ -80,4 +88,87 @@ const char *HexToString(T value)
 	}
 	hexToStringOutput[size + 1] = 0;
 	return hexToStringOutput;
+}
+
+template <class T>
+const char *IntegerToString(T value)
+{
+
+	u8 isNegative = 0;
+	if (value < 0)
+	{
+		isNegative = 1;
+		value *= -1;
+	}
+
+	static char integerToStringOutput[128];
+	u8 size = 0;
+	u64 sizeTester = (u64)value;
+	u8 index = 0;
+
+	while (sizeTester / 10 > 0)
+	{
+		sizeTester /= 10;
+		size++;
+	}
+
+	if (isNegative)
+		size++;
+
+	u64 newValue = (u64)value;
+	while (newValue / 10 > 0)
+	{
+		u8 remainder = newValue % 10;
+		newValue /= 10;
+		integerToStringOutput[size - index] = remainder + '0';
+		index++;
+	}
+
+	u8 remainder = newValue % 10;
+	integerToStringOutput[size - index] = remainder + '0';
+	index++;
+
+	if (isNegative == 1)
+	{
+		integerToStringOutput[size - index] = '-';
+	}
+	integerToStringOutput[size + 1] = 0;
+
+	return integerToStringOutput;
+}
+
+template <class T>
+const char *FloatToString(T value, u8 decimalPlaces = 3)
+{
+	static char floatToStringOutput[128];
+	char *intPtr = (char *)IntegerToString((int)value);
+	char *floatPtr = floatToStringOutput;
+
+	if (value < 0)
+	{
+		value *= -1;
+	}
+
+	while (*intPtr != 0)
+	{
+		*floatPtr = *intPtr;
+
+		floatPtr++;
+		intPtr++;
+	}
+
+	*(floatPtr++) = '.';
+
+	T newValue = value - (int)value;
+
+	for (u8 i = 0; i < decimalPlaces; i++)
+	{
+		newValue *= 10;
+		*(floatPtr++) = (char)newValue + '0';
+		newValue = newValue - (int)newValue;
+	}
+
+	*floatPtr = 0;
+
+	return floatToStringOutput;
 }
